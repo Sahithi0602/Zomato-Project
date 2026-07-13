@@ -39,9 +39,9 @@ concurrency:
   
 env:
   NODE_VERSION: "22"
-  IMAGE_NAME: nodejssahithi/zomato
+  IMAGE_NAME: zomato
   IMAGE_TAG: ${{ github.sha }}
-  REPO: nodejssahithi
+  REPO: zomato
  
 jobs:
 
@@ -301,7 +301,12 @@ jobs:
 #  Push Image
     - name: Push Docker Image
       run: |
-        docker push ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+        docker tag \
+        ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} \
+        ${{ secrets.DOCKER_USER }}/${{ env.REPO }}:${{ env.IMAGE_TAG }}
+
+        docker push \
+        ${{ secrets.DOCKER_USER }}/${{ env.REPO }}:${{ env.IMAGE_TAG }}
 
 # Verify Container Starts
   
