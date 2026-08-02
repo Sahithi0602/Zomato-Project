@@ -1,15 +1,24 @@
-FROM node:16-slim AS builder
+FROM node:22-alpine AS builder
+
 WORKDIR /app
+
 COPY package*.json ./
-RUN npm install
+
+RUN npm ci
+
 COPY . .
+
 RUN npm run build
 
-# Stage 2: Production
-FROM builder AS final
+
+FROM node:22-alpine
+
 WORKDIR /app
+
+RUN npm install --global serve
+
 COPY --from=builder /app/build ./build
-COPY package*.json ./
-RUN npm install --production
+
 EXPOSE 3000
-CMD ["npm", "start"]
+
+CMD ["serve", "-s", "build", "-l", "3000"]
