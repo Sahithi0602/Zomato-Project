@@ -190,10 +190,9 @@ jobs:
         docker tag \
         ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} \
         ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }}
-
         docker tag \
         ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} \
-        ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:latest
+        ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:${{ github.sha }}
 
 ############################################################
 # PUSH IMAGE
